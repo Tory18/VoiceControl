@@ -87,7 +87,7 @@ public class ActivityCadastro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //criarUsuario();
-                Intent it = new Intent(ActivityCadastro.this, ActivityHome.class);
+                Intent it = new Intent(ActivityCadastro.this, Listagem.class);
                 startActivity(it);
                 //finish();
             }
