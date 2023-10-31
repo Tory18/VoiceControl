@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.speech.RecognizerIntent;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.core.view.WindowCompat;
 import androidx.navigation.NavController;
@@ -30,12 +31,13 @@ import java.util.TimerTask;
 public class ActivityHome extends AppCompatActivity {
     private ControleTTS controleTTS;
     private static final int REQUEST_CODE =2;
+    private TextView textView;
     private boolean estaOuvindo = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        textView = findViewById(R.id.textfalado);
+        textView = findViewById(R.id.textFalado);
         controleTTS = new ControleTTS(this);
 
         iniciarReconhecimento();
@@ -72,13 +74,18 @@ public class ActivityHome extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
             ArrayList<String> resultados = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (resultados != null && !resultados.isEmpty()) {
                 String resultado = resultados.get(0);
-                //comandos
+
+                String textoReconhecido = resultado;
+                textView.setText(textoReconhecido);
+
+
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
     @Override
     protected void onDestroy() {

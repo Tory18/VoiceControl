@@ -86,10 +86,10 @@ public class ActivityCadastro extends AppCompatActivity {
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                criarUsuario();
-                Intent it = new Intent(ActivityCadastro.this, Listagem.class);
+                //criarUsuario();
+                Intent it = new Intent(ActivityCadastro.this, ActivityHome.class);
                 startActivity(it);
-                finish();
+                //finish();
             }
         });
     }
@@ -144,7 +144,7 @@ public class ActivityCadastro extends AppCompatActivity {
         super.onDestroy();
         controleTTS.shutdown();
     }
-    private void criarUsuario() {
+    /*private void criarUsuario() {
         long id = -1;
         String nome = nUsuario.getText().toString();
         String nomeA = nAssistente.getText().toString();
@@ -156,5 +156,5 @@ public class ActivityCadastro extends AppCompatActivity {
         } else {
             Log.d("Gravacao", "Sem sucesso");
         }
-    }
+    }*/
 }
