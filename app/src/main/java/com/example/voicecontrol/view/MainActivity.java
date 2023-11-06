@@ -9,12 +9,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.voicecontrol.R;
-import com.example.voicecontrol.model.ControleTTS;
-import com.example.voicecontrol.R;
-import com.example.voicecontrol.model.ControleTTS;
+import com.example.voicecontrol.util.ControleTTS;
 
 public class MainActivity extends AppCompatActivity {
-
     private Button btnPermissao;
     private ControleTTS controleTTS;
     private ImageButton imgVoiceControl;
@@ -82,5 +79,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
         controleTTS.shutdown();
+    }
+    private void initNavigation(){
+
     }
 }

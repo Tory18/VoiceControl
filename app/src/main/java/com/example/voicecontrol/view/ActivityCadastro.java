@@ -5,8 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -22,11 +26,11 @@ import android.widget.Toast;
 import com.example.voicecontrol.R;
 import com.example.voicecontrol.model.Cadastro;
 import com.example.voicecontrol.model.MensagensSintentizador;
-import com.example.voicecontrol.model.MensagensSintentizador;
-import com.example.voicecontrol.model.ControleTTS;
+import com.example.voicecontrol.util.ControleTTS;
+import com.example.voicecontrol.util.SpeechToText;
+import com.example.voicecontrol.view.fragments.Home;
 import com.example.voicecontrol.viewmodel.ControleCadastro;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -40,6 +44,7 @@ public class ActivityCadastro extends AppCompatActivity {
     private Button entrar;
     private MensagensSintentizador mensagensSintetizador;
     private ControleTTS controleTTS;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +70,7 @@ public class ActivityCadastro extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    iniciarReconhecimento();
+                    iniciarReconhecimentoUsuario();
 
                 }
                 return false;
@@ -76,25 +81,39 @@ public class ActivityCadastro extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    iniciarReconhecimento();
-
+                    iniciarReconhecimentoUsuario();
                 }
                 return false;
             }
         });
 
         entrar.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 //criarUsuario();
-                Intent it = new Intent(ActivityCadastro.this, Listagem.class);
-                startActivity(it);
+                //Intent it = new Intent(ActivityCadastro.this, .class);
+                //startActivity(it);
                 //finish();
+
+
+                navegacaoFragment();
             }
         });
     }
 
-    protected void iniciarReconhecimento() {
+    private void navegacaoFragment() {
+        Home home = new Home();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.frag_home, home);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void iniciarReconhecimentoUsuario() {
+
         Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
@@ -102,12 +121,13 @@ public class ActivityCadastro extends AppCompatActivity {
 
         try {
             startActivityForResult(it, REQUEST_CODE);
-        }catch (Exception e){
-            Toast.makeText(this, "" +e.getMessage(),
+        } catch (Exception e) {
+            Toast.makeText(this, "" + e.getMessage(),
                     Toast.LENGTH_SHORT).show();
         }
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -121,10 +141,10 @@ public class ActivityCadastro extends AppCompatActivity {
                     nUsuario.setSelection(nUsuario.getText().length());
 
                     String tUsuario = nUsuario.getText().toString();
-                    controleTTS.speak("Seu nome de Usuario: " +tUsuario + "Certo? ");
-                    if (tUsuario.equalsIgnoreCase("Sim")){
-                        iniciarReconhecimento();
-                         nAssistente.requestFocus();
+                    controleTTS.speak("Seu nome de Usuario: " + tUsuario + "Certo? ");
+                    if (tUsuario.equalsIgnoreCase("Sim")) {
+                        iniciarReconhecimentoUsuario();
+                        nAssistente.requestFocus();
                     }
 
                 } else if (nAssistente.isFocused()) {
@@ -132,7 +152,7 @@ public class ActivityCadastro extends AppCompatActivity {
                     nAssistente.setSelection(nAssistente.getText().length());
 
                     String tAssistente = nAssistente.getText().toString();
-                    controleTTS.speak("Seu nome de Usuario: " +tAssistente + "Certo?");
+                    controleTTS.speak("Seu nome de Usuario: " + tAssistente + "Certo?");
                 }
             }
         }
@@ -155,6 +175,8 @@ public class ActivityCadastro extends AppCompatActivity {
             Log.d("Gravacao", "Ok");
         } else {
             Log.d("Gravacao", "Sem sucesso");
-        }
-    }*/
+            }
+        }*/
+
+
 }

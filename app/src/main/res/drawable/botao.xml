@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/corMicro" /> <!-- Cor de fundo com alpha -->
+    <corners android:radius="30dp" /> <!-- Raio do canto -->
+</shape>

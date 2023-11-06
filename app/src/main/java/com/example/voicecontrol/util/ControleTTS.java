@@ -1,4 +1,4 @@
-package com.example.voicecontrol.model;
+package com.example.voicecontrol.util;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;

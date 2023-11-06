@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cor">#EEF4ED</color>
+    <color name="corMicro">#C9E3E6</color>
 </resources>

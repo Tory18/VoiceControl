@@ -19,9 +19,9 @@
         android:theme="@style/Theme.VoiceControl"
         tools:targetApi="31">
         <activity
-            android:name=".view.ActivityHome"
+            android:name=".view.MainActivity2"
             android:exported="false"
-            android:label="@string/title_activity_home"
+            android:label="@string/title_activity_main2"
             android:theme="@style/Theme.VoiceControl" />
         <activity
             android:name=".view.Listagem"

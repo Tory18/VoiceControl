@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/home2">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.voicecontrol.view.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <activity
+        android:id="@+id/activityCadastro2"
+        android:name="com.example.voicecontrol.view.ActivityCadastro"
+        android:label="activity_cadastro"
+        tools:layout="@layout/activity_cadastro" />
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.example.voicecontrol.view.fragments.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home2_to_configuracao"
+            app:destination="@id/configuracao" />
+    </fragment>
+    <fragment
+        android:id="@+id/configuracao"
+        android:name="com.example.voicecontrol.view.fragments.Configuracao"
+        android:label="fragment_configuracao"
+        tools:layout="@layout/fragment_configuracao" >
+        <action
+            android:id="@+id/action_configuracao_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <activity
+        android:id="@+id/listagem"
+        android:name="com.example.voicecontrol.view.Listagem"
+        android:label="activity_listagem"
+        tools:layout="@layout/activity_listagem" />
+</navigation>
