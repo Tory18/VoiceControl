@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tela_home"
+        android:icon="@drawable/casa"
+        android:title="@string/tela_home"/>
+    <item
+        android:id="@+id/tela_configuracao"
+        android:icon="@drawable/configuracao"
+        android:title="@string/tela_configuracao"/>
+
+</menu>

@@ -28,7 +28,7 @@ import com.example.voicecontrol.model.Cadastro;
 import com.example.voicecontrol.model.MensagensSintentizador;
 import com.example.voicecontrol.util.ControleTTS;
 import com.example.voicecontrol.util.SpeechToText;
-import com.example.voicecontrol.view.fragments.Home;
+import com.example.voicecontrol.view.fragment.HomeFragment;
 import com.example.voicecontrol.viewmodel.ControleCadastro;
 
 import java.util.ArrayList;
@@ -44,6 +44,8 @@ public class ActivityCadastro extends AppCompatActivity {
     private Button entrar;
     private MensagensSintentizador mensagensSintetizador;
     private ControleTTS controleTTS;
+
+
 
 
     @Override
@@ -103,13 +105,15 @@ public class ActivityCadastro extends AppCompatActivity {
     }
 
     private void navegacaoFragment() {
-        Home home = new Home();
+        HomeFragment home = new HomeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        transaction.replace(R.id.frag_home, home);
+        // Verifique se o ID do contêiner corresponde ao ID no layout XML da atividade
+        transaction.replace(R.id._home, home);
         transaction.addToBackStack(null);
         transaction.commit();
+
     }
 
     private void iniciarReconhecimentoUsuario() {

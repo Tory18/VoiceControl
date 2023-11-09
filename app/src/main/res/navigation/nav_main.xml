@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/home2">
+    app:startDestination="@id/_home">
 
     <activity
         android:id="@+id/mainActivity"
@@ -16,8 +16,8 @@
         android:label="activity_cadastro"
         tools:layout="@layout/activity_cadastro" />
     <fragment
-        android:id="@+id/home2"
-        android:name="com.example.voicecontrol.view.fragments.Home"
+        android:id="@+id/_home"
+        android:name="com.example.voicecontrol.view.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -26,12 +26,12 @@
     </fragment>
     <fragment
         android:id="@+id/configuracao"
-        android:name="com.example.voicecontrol.view.fragments.Configuracao"
+        android:name="com.example.voicecontrol.view.fragment.ConfiguracaoFragment"
         android:label="fragment_configuracao"
         tools:layout="@layout/fragment_configuracao" >
         <action
             android:id="@+id/action_configuracao_to_home2"
-            app:destination="@id/home2" />
+            app:destination="@id/_home" />
     </fragment>
     <activity
         android:id="@+id/listagem"
