@@ -99,22 +99,11 @@ public class ActivityCadastro extends AppCompatActivity {
                 //finish();
 
 
-                navegacaoFragment();
+        
             }
         });
     }
 
-    private void navegacaoFragment() {
-        HomeFragment home = new HomeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        // Verifique se o ID do contêiner corresponde ao ID no layout XML da atividade
-        transaction.replace(R.id._home, home);
-        transaction.addToBackStack(null);
-        transaction.commit();
-
-    }
 
     private void iniciarReconhecimentoUsuario() {
 
