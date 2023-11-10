@@ -2,7 +2,6 @@ package com.example.voicecontrol.viewmodel;
 import android.content.Context;
 
 import com.example.voicecontrol.model.Cadastro;
-import com.example.voicecontrol.model.Cadastro;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +37,9 @@ public class ControleCadastro {
     public Cadastro buscarPorPosicao(int posicao){
         return cadastros.get(posicao);
     }
-    public void atualizarLista(){
-        cadastros.clear();
-        cadastros.addAll(buscarTodos());
+    public boolean atualizarLista(){
+        CadastroRepositorio cadastroRepositorio = new CadastroRepositorio(context);
+        return cadastroRepositorio.alterar((Cadastro) cadastros);
     }
-
 
 }

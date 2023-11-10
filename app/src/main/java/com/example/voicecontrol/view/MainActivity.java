@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.example.voicecontrol.R.layout.activity_main);
 
+
         btnPermissao = findViewById(R.id.btn_permissao);
         controleTTS = new ControleTTS(this);
         imgVoiceControl = findViewById(R.id.imageView6);

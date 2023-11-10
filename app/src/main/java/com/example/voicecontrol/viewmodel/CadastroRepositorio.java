@@ -26,6 +26,17 @@ public class CadastroRepositorio {
         return id;
 
     }
+    public boolean alterar(Cadastro cadastro){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        ContentValues valores = new ContentValues();
+        valores.put(DBHelper.COLUNA_NOME_USUARIO, cadastro.getNome());
+        valores.put(DBHelper.COLUNA_NOMEASSISTENTE_USUARIO, cadastro.getNomeAssistente());
+
+        int linhas = db.update(DBHelper.TABELA_USUARIO, valores, DBHelper.COLUNA_NOME_USUARIO,
+                new String[] {String.valueOf(cadastro.getNome())});
+        db.close();
+        return linhas > 0;
+    }
     public List<Cadastro> buscarTodosUsuarios(){
         SQLiteDatabase db = helper.getReadableDatabase();
         String sql = "SELECT * FROM "+DBHelper.TABELA_USUARIO+" ORDER BY "+DBHelper.COLUNA_NOME_USUARIO;

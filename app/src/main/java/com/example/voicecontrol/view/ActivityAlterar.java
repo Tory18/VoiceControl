@@ -1,16 +1,12 @@
 package com.example.voicecontrol.view;
-import android.Manifest;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -22,37 +18,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import com.example.voicecontrol.R;
 import com.example.voicecontrol.model.Cadastro;
 import com.example.voicecontrol.model.MensagensSintentizador;
 import com.example.voicecontrol.util.ControleTTS;
-import com.example.voicecontrol.util.SpeechToText;
-import com.example.voicecontrol.view.fragment.HomeFragment;
+import com.example.voicecontrol.viewmodel.Adapter;
 import com.example.voicecontrol.viewmodel.ControleCadastro;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class ActivityCadastro extends AppCompatActivity {
-
+public class ActivityAlterar extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
 
     private EditText nUsuario;
     private EditText nAssistente;
-    private Button entrar;
+    private Button salvar;
     private MensagensSintentizador mensagensSintetizador;
     private ControleTTS controleTTS;
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro);
-
+        setContentView(R.layout.activity_alterar);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.RECORD_AUDIO},
@@ -60,12 +50,12 @@ public class ActivityCadastro extends AppCompatActivity {
         }
 
         controleTTS = new ControleTTS(this);
-        controleTTS.speak("Bem-vindo caro usuário");
+        controleTTS.speak("Olá caro usuário, nesta tela voce poderá alterar suas informações");
 
         mensagensSintetizador = new MensagensSintentizador();
         nUsuario = findViewById(R.id.nome_usuario);
         nAssistente = findViewById(R.id.nome_assistente);
-        entrar = findViewById(R.id.button);
+        salvar = findViewById(R.id.button);
 
         nUsuario.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -89,28 +79,20 @@ public class ActivityCadastro extends AppCompatActivity {
             }
         });
 
-        entrar.setOnClickListener(new View.OnClickListener() {
+        salvar.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //criarUsuario();
-                //Intent it = new Intent(ActivityCadastro.this,  HomeFragment.class);
-                //startActivity(it);
-                //finish();
+                alterarUsuario();
+                Intent it = new Intent(ActivityAlterar.this, Listagem.class);
+                startActivity(it);
+                finish();
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                HomeFragment myFragment = new HomeFragment();
-                fragmentTransaction.add(R.id.fragment_home, myFragment);
-
-                fragmentTransaction.commit();
-                Log.d("TAG", "FUNCIONA");
 
             }
         });
     }
-
 
 
     private void iniciarReconhecimentoUsuario() {
@@ -142,7 +124,7 @@ public class ActivityCadastro extends AppCompatActivity {
                     nUsuario.setSelection(nUsuario.getText().length());
 
                     String tUsuario = nUsuario.getText().toString();
-                    controleTTS.speak("Seu nome de Usuario: " + tUsuario + "Certo? ");
+                    controleTTS.speak("Seu novo nome de Usuario: " + tUsuario + "Certo? ");
                     if (tUsuario.equalsIgnoreCase("Sim")) {
                         iniciarReconhecimentoUsuario();
                         nAssistente.requestFocus();
@@ -153,7 +135,7 @@ public class ActivityCadastro extends AppCompatActivity {
                     nAssistente.setSelection(nAssistente.getText().length());
 
                     String tAssistente = nAssistente.getText().toString();
-                    controleTTS.speak("Seu nome de Usuario: " + tAssistente + "Certo?");
+                    controleTTS.speak("Seu novo nome de Assistente: " + tAssistente + "Certo?");
                 }
             }
         }
@@ -165,19 +147,16 @@ public class ActivityCadastro extends AppCompatActivity {
         super.onDestroy();
         controleTTS.shutdown();
     }
-    /*private void criarUsuario() {
-        long id = -1;
+    private void alterarUsuario() {
         String nome = nUsuario.getText().toString();
         String nomeA = nAssistente.getText().toString();
 
         Cadastro cadastro = new Cadastro(nome, nomeA);
-        ControleCadastro controleCadastro = ControleCadastro.getInstancia(ActivityCadastro.this);
-        if (controleCadastro.cadastrar(cadastro)) {
-            Log.d("Gravacao", "Ok");
+        ControleCadastro controleCadastro = ControleCadastro.getInstancia(ActivityAlterar.this);
+        if (controleCadastro.atualizarLista()) {
+            Toast.makeText(this, "Dados alterados com sucesso", Toast.LENGTH_SHORT).show();
         } else {
-            Log.d("Gravacao", "Sem sucesso");
-            }
-        }*/
-
-
+            Toast.makeText(this, "Sem sucesso", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

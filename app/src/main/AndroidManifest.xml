@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.MICROPHONE" />
 
     <application
         android:allowBackup="true"
@@ -19,14 +18,24 @@
         android:theme="@style/Theme.VoiceControl"
         tools:targetApi="31">
         <activity
-            android:name=".view.Navegacao"
+            android:name=".view.fragment.MainActivity"
             android:exported="false"
-            android:label="@string/title_activity_navegacao"
+            android:label="@string/title_activity_main"
             android:theme="@style/Theme.VoiceControl" />
         <activity
             android:name=".view.MainActivity2"
             android:exported="false"
             android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.VoiceControl" />
+        <activity
+            android:name=".view.ActivityAlterar"
+            android:exported="false"
+            android:label="@string/title_activity_alterar"
+            android:theme="@style/Theme.VoiceControl" />
+        <activity
+            android:name=".view.Navegacao"
+            android:exported="false"
+            android:label="@string/title_activity_navegacao"
             android:theme="@style/Theme.VoiceControl" />
         <activity
             android:name=".view.Listagem"

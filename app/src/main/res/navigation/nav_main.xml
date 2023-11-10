@@ -5,16 +5,6 @@
     android:id="@+id/nav_main"
     app:startDestination="@id/_home">
 
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.voicecontrol.view.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
-    <activity
-        android:id="@+id/activityCadastro2"
-        android:name="com.example.voicecontrol.view.ActivityCadastro"
-        android:label="activity_cadastro"
-        tools:layout="@layout/activity_cadastro" />
     <fragment
         android:id="@+id/_home"
         android:name="com.example.voicecontrol.view.fragment.HomeFragment"
@@ -28,14 +18,7 @@
         android:id="@+id/configuracao"
         android:name="com.example.voicecontrol.view.fragment.ConfiguracaoFragment"
         android:label="fragment_configuracao"
-        tools:layout="@layout/fragment_configuracao" >
-        <action
-            android:id="@+id/action_configuracao_to_home2"
-            app:destination="@id/_home" />
-    </fragment>
-    <activity
-        android:id="@+id/listagem"
-        android:name="com.example.voicecontrol.view.Listagem"
-        android:label="activity_listagem"
-        tools:layout="@layout/activity_listagem" />
+        tools:layout="@layout/fragment_configuracao" />
+
+
 </navigation>
