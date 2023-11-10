@@ -94,24 +94,27 @@ public class ActivityCadastro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //criarUsuario();
-                //Intent it = new Intent(ActivityCadastro.this,  HomeFragment.class);
+                //Intent it = new Intent(ActivityCadastro.this, .class);
                 //startActivity(it);
                 //finish();
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                HomeFragment myFragment = new HomeFragment();
-                fragmentTransaction.add(R.id.fragment_home, myFragment);
-
-                fragmentTransaction.commit();
-                Log.d("TAG", "FUNCIONA");
-
+                navegacaoFragment();
             }
         });
     }
 
+    private void navegacaoFragment() {
+        HomeFragment home = new HomeFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
 
+        // Verifique se o ID do contêiner corresponde ao ID no layout XML da atividade
+        transaction.replace(R.id._home, home);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
 
     private void iniciarReconhecimentoUsuario() {
 
