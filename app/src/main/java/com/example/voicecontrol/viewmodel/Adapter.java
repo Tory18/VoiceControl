@@ -1,4 +1,4 @@
-package com.example.voicecontrol.viewmodel;
+/*package com.example.voicecontrol.viewmodel;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -55,4 +55,4 @@ public class Adapter extends BaseAdapter{
         cadastros.addAll(controleCadastro.buscarTodos());
         notifyDataSetChanged();
     }
-}
+}*/

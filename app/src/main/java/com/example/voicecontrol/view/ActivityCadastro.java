@@ -5,12 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -25,10 +22,8 @@ import android.widget.Toast;
 
 import com.example.voicecontrol.R;
 import com.example.voicecontrol.model.Cadastro;
-import com.example.voicecontrol.model.MensagensSintentizador;
+import com.example.voicecontrol.model.InstrucoesSintentizadas;
 import com.example.voicecontrol.util.ControleTTS;
-import com.example.voicecontrol.util.SpeechToText;
-import com.example.voicecontrol.view.fragment.HomeFragment;
 import com.example.voicecontrol.viewmodel.ControleCadastro;
 
 import java.util.ArrayList;
@@ -42,7 +37,7 @@ public class ActivityCadastro extends AppCompatActivity {
     private EditText nUsuario;
     private EditText nAssistente;
     private Button entrar;
-    private MensagensSintentizador mensagensSintetizador;
+    private InstrucoesSintentizadas mensagensSintetizador;
     private ControleTTS controleTTS;
 
 
@@ -53,16 +48,10 @@ public class ActivityCadastro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECORD_AUDIO},
-                    PERMISSIONS_REQUEST_RECORD_AUDIO);
-        }
-
         controleTTS = new ControleTTS(this);
         controleTTS.speak("Bem-vindo caro usuário");
 
-        mensagensSintetizador = new MensagensSintentizador();
+        mensagensSintetizador = new InstrucoesSintentizadas();
         nUsuario = findViewById(R.id.nome_usuario);
         nAssistente = findViewById(R.id.nome_assistente);
         entrar = findViewById(R.id.button);
@@ -93,28 +82,16 @@ public class ActivityCadastro extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //criarUsuario();
-                //Intent it = new Intent(ActivityCadastro.this, .class);
-                //startActivity(it);
-                //finish();
+                criarUsuario();
+                Intent it = new Intent(ActivityCadastro.this, ActivityAlterar.class);
+                startActivity(it);
+                finish();
 
 
-                navegacaoFragment();
             }
         });
     }
 
-    private void navegacaoFragment() {
-        HomeFragment home = new HomeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        // Verifique se o ID do contêiner corresponde ao ID no layout XML da atividade
-        transaction.replace(R.id._home, home);
-        transaction.addToBackStack(null);
-        transaction.commit();
-
-    }
 
     private void iniciarReconhecimentoUsuario() {
 
@@ -168,7 +145,7 @@ public class ActivityCadastro extends AppCompatActivity {
         super.onDestroy();
         controleTTS.shutdown();
     }
-    /*private void criarUsuario() {
+    private void criarUsuario() {
         long id = -1;
         String nome = nUsuario.getText().toString();
         String nomeA = nAssistente.getText().toString();
@@ -180,7 +157,7 @@ public class ActivityCadastro extends AppCompatActivity {
         } else {
             Log.d("Gravacao", "Sem sucesso");
             }
-        }*/
+        }
 
 
 }

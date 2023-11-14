@@ -7,15 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.voicecontrol.R;
+import com.example.voicecontrol.model.PermissoesUsuario;
 import com.example.voicecontrol.util.ControleTTS;
+import com.example.voicecontrol.viewmodel.GerenciarPermissoes;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnPermissao;
     private ControleTTS controleTTS;
-    private ImageButton imgVoiceControl;
+    private ImageView imgVoiceControl;
     private Button btnCadastro;
+
 
 
 
@@ -29,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
         controleTTS = new ControleTTS(this);
         imgVoiceControl = findViewById(R.id.imageView6);
         btnCadastro = findViewById(R.id.bnt_cadastro);
+
+        String [] permissoesUsario = PermissoesUsuario.Permissoe;
+        if (GerenciarPermissoes.SolicitarPermissoesFaltantes(this, permissoesUsario, 1)){
+            // Todas as permissões já foram concedidas, prossiga com suas ações
+        }else{
+            // Algumas permissões ainda precisam ser concedidas
+            // O pedido de permissões foi enviado; você pode tratar o resultado em onRequestPermissionsResult
+        }
 
         btnCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,15 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 lastClickTime = currentTime;
             }
         });
-        imgVoiceControl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String imageDescription = getString(R.string.descricao_imagem);
-                controleTTS.speak(imageDescription);
-            }
-        });
-
-
     }
 
     protected void onResume() {
@@ -83,7 +86,5 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         controleTTS.shutdown();
     }
-    private void initNavigation(){
 
-    }
 }

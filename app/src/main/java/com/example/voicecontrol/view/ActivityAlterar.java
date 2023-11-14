@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,9 +19,8 @@ import android.widget.Toast;
 
 import com.example.voicecontrol.R;
 import com.example.voicecontrol.model.Cadastro;
-import com.example.voicecontrol.model.MensagensSintentizador;
+import com.example.voicecontrol.model.InstrucoesSintentizadas;
 import com.example.voicecontrol.util.ControleTTS;
-import com.example.voicecontrol.viewmodel.Adapter;
 import com.example.voicecontrol.viewmodel.ControleCadastro;
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class ActivityAlterar extends AppCompatActivity {
     private EditText nUsuario;
     private EditText nAssistente;
     private Button salvar;
-    private MensagensSintentizador mensagensSintetizador;
+    private InstrucoesSintentizadas mensagensSintetizador;
     private ControleTTS controleTTS;
 
 
@@ -52,10 +50,10 @@ public class ActivityAlterar extends AppCompatActivity {
         controleTTS = new ControleTTS(this);
         controleTTS.speak("Olá caro usuário, nesta tela voce poderá alterar suas informações");
 
-        mensagensSintetizador = new MensagensSintentizador();
+        mensagensSintetizador = new InstrucoesSintentizadas();
         nUsuario = findViewById(R.id.nome_usuario);
         nAssistente = findViewById(R.id.nome_assistente);
-        salvar = findViewById(R.id.button);
+        salvar = findViewById(R.id.btnSalvar);
 
         nUsuario.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -84,7 +82,7 @@ public class ActivityAlterar extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alterarUsuario();
-                Intent it = new Intent(ActivityAlterar.this, Listagem.class);
+                Intent it = new Intent(ActivityAlterar.this, ActivityCadastro.class);
                 startActivity(it);
                 finish();
 

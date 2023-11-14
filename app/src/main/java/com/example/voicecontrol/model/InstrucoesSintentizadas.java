@@ -1,7 +1,7 @@
 package com.example.voicecontrol.model;
 import java.util.ArrayList;
 
-public class MensagensSintentizador{
+public class InstrucoesSintentizadas {
     private String Atenção [] = {"Tente de novo" + "Tem algo errado"};
     private String Erro[] = {"Erro!"};
     private String Acesso[] = {"Acesso permitido"};
