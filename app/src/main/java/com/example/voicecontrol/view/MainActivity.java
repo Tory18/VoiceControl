@@ -30,14 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
         btnCadastro = findViewById(R.id.bnt_cadastro);
 
-        /*controleTTS = new ControleTTS(this, status ->{
+        controleTTS = new ControleTTS(this, status ->{
             if (status == TextToSpeech.SUCCESS) {
                 // Lógica para configurar o TextToSpeech, se necessário
                 confirmacao();
             } else {
                 Toast.makeText(MainActivity.this, "Erro ao inicializar TextToSpeech.", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
 
 
 
@@ -54,21 +54,28 @@ public class MainActivity extends AppCompatActivity {
     // ...
     private void solicitarPermissao() {
         String[] permissoesUsuario = PermissoesUsuario.Lista_de_Permissoes;
-        if (PermissoesUsuario.TodasPermissoesConcedidas(this, permissoesUsuario)) {
+        if (controleTTS != null && PermissoesUsuario.TodasPermissoesConcedidas(this, permissoesUsuario)) {
             controleTTS.speak(getString(R.string.saudacao_cadastro), TextToSpeech.QUEUE_FLUSH, null, null);
         } else {
-            PermissoesUsuario.SolicitarPermissoesFaltantes(this, permissoesUsuario, PERMISSION_REQUEST_CODE);
-            controleTTS.speak(getString(R.string.pedir_permissoes), TextToSpeech.QUEUE_FLUSH, null, null);
+            //PermissoesUsuario.SolicitarPermissoesFaltantes(this, permissoesUsuario, PERMISSION_REQUEST_CODE);
+           // controleTTS.speak(getString(R.string.pedir_permissoes), TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
-    /*private void confirmacao() {
-        SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        String userName = preferences.getString("user_name", "");
 
-        if (!userName.isEmpty()) {
-            controleTTS.speak(getString(R.string.bem_vindo, userName), TextToSpeech.QUEUE_FLUSH, null, null);
+    private void confirmacao() {
+        if (controleTTS != null) {
+            SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+            String userName = preferences.getString("user_name", "");
+
+            if (!userName.isEmpty()) {
+                controleTTS.speak(getString(R.string.bem_vindo, userName), TextToSpeech.QUEUE_FLUSH, null, null);
+            }
+        } else {
+            Toast.makeText(this, "ControleTTS não inicializado corretamente.", Toast.LENGTH_SHORT).show();
         }
-    }*/
+    }
+
+
 
     @Override
     protected void onResume() {
