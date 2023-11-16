@@ -30,8 +30,8 @@ public class ActivityAlterar extends AppCompatActivity {
     private static final int REQUEST_CODE = 1;
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
 
-    private EditText nUsuario;
-    private EditText nAssistente;
+    private EditText altUsuario;
+    private EditText altAssistente;
     private Button salvar;
     private InstrucoesSintentizadas mensagensSintetizador;
     private ControleTTS controleTTS;
@@ -51,27 +51,27 @@ public class ActivityAlterar extends AppCompatActivity {
         controleTTS.speak("Olá caro usuário, nesta tela voce poderá alterar suas informações");
 
         mensagensSintetizador = new InstrucoesSintentizadas();
-        nUsuario = findViewById(R.id.nome_usuario);
-        nAssistente = findViewById(R.id.nome_assistente);
+        altUsuario = findViewById(R.id.nome_usuario);
+        altAssistente = findViewById(R.id.nome_assistente);
         salvar = findViewById(R.id.btnSalvar);
 
-        nUsuario.setOnTouchListener(new View.OnTouchListener() {
+        altUsuario.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    iniciarReconhecimentoUsuario();
+                    iniciarReconhecimentoNome();
 
                 }
                 return false;
             }
         });
 
-        nAssistente.setOnTouchListener(new View.OnTouchListener() {
+        altAssistente.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    iniciarReconhecimentoUsuario();
+                    iniciarReconhecimentoAssistente();
                 }
                 return false;
             }
@@ -92,13 +92,30 @@ public class ActivityAlterar extends AppCompatActivity {
         });
     }
 
+    private void iniciarReconhecimentoAssistente() {
+        Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
+        controleTTS.speak("Fale o nome nome da assistente...");
+        it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale o nome nome da assistente...");
 
-    private void iniciarReconhecimentoUsuario() {
+        try {
+            startActivityForResult(it, REQUEST_CODE);
+        } catch (Exception e) {
+            Toast.makeText(this, "" + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void iniciarReconhecimentoNome() {
 
         Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
-        it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale seu nome...");
+        controleTTS.speak("Fale o seu novo nome...");
+        it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale o seu novo nome...");
+
 
         try {
             startActivityForResult(it, REQUEST_CODE);
@@ -117,22 +134,22 @@ public class ActivityAlterar extends AppCompatActivity {
             if (resultados != null && !resultados.isEmpty()) {
                 String resultado = resultados.get(0);
 
-                if (nUsuario.isFocused()) {
-                    nUsuario.setText(resultado);
-                    nUsuario.setSelection(nUsuario.getText().length());
+                if (altUsuario.isFocused()) {
+                    altUsuario.setText(resultado);
+                    altUsuario.setSelection(altUsuario.getText().length());
 
-                    String tUsuario = nUsuario.getText().toString();
+                    String tUsuario = altUsuario.getText().toString();
                     controleTTS.speak("Seu novo nome de Usuario: " + tUsuario + "Certo? ");
                     if (tUsuario.equalsIgnoreCase("Sim")) {
-                        iniciarReconhecimentoUsuario();
-                        nAssistente.requestFocus();
+                        iniciarReconhecimentoNome();
+                        altAssistente.requestFocus();
                     }
 
-                } else if (nAssistente.isFocused()) {
-                    nAssistente.setText(resultado);
-                    nAssistente.setSelection(nAssistente.getText().length());
+                } else if (altAssistente.isFocused()) {
+                    altAssistente.setText(resultado);
+                    altAssistente.setSelection(altAssistente.getText().length());
 
-                    String tAssistente = nAssistente.getText().toString();
+                    String tAssistente = altAssistente.getText().toString();
                     controleTTS.speak("Seu novo nome de Assistente: " + tAssistente + "Certo?");
                 }
             }
@@ -146,8 +163,8 @@ public class ActivityAlterar extends AppCompatActivity {
         controleTTS.shutdown();
     }
     private void alterarUsuario() {
-        String nome = nUsuario.getText().toString();
-        String nomeA = nAssistente.getText().toString();
+        String nome = altUsuario.getText().toString();
+        String nomeA = altAssistente.getText().toString();
 
         Cadastro cadastro = new Cadastro(nome, nomeA);
         ControleCadastro controleCadastro = ControleCadastro.getInstancia(ActivityAlterar.this);

@@ -85,4 +85,14 @@
         app:srcCompat="@drawable/bem_vindo_"
         tools:layout_editor_absoluteX="28dp"
         tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="535dp"
+        android:layout_height="374dp"
+        android:layout_marginTop="500dp"
+        android:rotation="4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mar__1__1"
+        tools:layout_editor_absoluteX="-62dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

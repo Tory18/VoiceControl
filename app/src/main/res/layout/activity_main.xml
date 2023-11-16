@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tela"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
@@ -50,23 +51,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
         app:srcCompat="@drawable/para_garantir_uma_experi_ncia_inclusiva__pedimos_sua_permiss_o_para_acessar_o_dispositivo_" />
 
-    <Button
-        android:id="@+id/btn_permissao"
-        android:layout_width="128dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginBottom="5dp"
-        android:contentDescription="Esse botao ira direcionalo para as configurações, para permitir acesso a outros aplicativos."
-        android:text="Acesso"
-        android:background="@drawable/btn_arredondada"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.0" />
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -82,17 +66,17 @@
 
     <Button
         android:id="@+id/bnt_cadastro"
-        android:layout_width="128dp"
+        android:layout_width="243dp"
         android:layout_height="55dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="140dp"
         android:layout_marginBottom="5dp"
+        android:background="@drawable/btn_arredondada"
         android:contentDescription="A partir de agora seus dados serao coletados"
         android:text="Cadastro"
-        android:background="@drawable/btn_arredondada"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.765"
+        app:layout_constraintHorizontal_bias="0.415"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView6"
         app:layout_constraintVertical_bias="0.0" />

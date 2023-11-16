@@ -19,7 +19,7 @@ public class ControleTTS implements TextToSpeech.OnInitListener {
     }
 
     public void speak(String message) {
-        if (tts != null && !tts.isSpeaking()) {
+        if (tts != null && inicializar && !tts.isSpeaking()) {
             tts.speak(message, TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
@@ -34,17 +34,14 @@ public class ControleTTS implements TextToSpeech.OnInitListener {
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-            int resultado = tts.setLanguage(Locale.getDefault());
-            int result = tts.setLanguage(Locale.getDefault());
+            int result = tts.setLanguage(new Locale("pt", "BR"));
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Toast.makeText(context, "Idioma não suportado", Toast.LENGTH_SHORT).show();
-
             } else {
                 inicializar = true;
             }
-
-        }else {
+        } else {
             Toast.makeText(context, "Falha na inicialização do TextToSpeech.", Toast.LENGTH_SHORT).show();
         }
     }

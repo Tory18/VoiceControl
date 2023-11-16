@@ -1,15 +1,48 @@
 package com.example.voicecontrol.model;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PermissoesUsuario {
-    public static final String [] Permissoe = {
+    public static final String[] Lista_de_Permissoes = {
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.INTERNET,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.WAKE_LOCK
     };
+
+
+    public static boolean VerificarPermissao(Context context, String permissao) {
+        return ContextCompat.checkSelfPermission(context, permissao) == PackageManager.PERMISSION_GRANTED;
+    }
+    public static List<String> VerificarPermissoesFaltantes(Context context, String[] permissoes) {
+        List<String> permissoesFaltantes = new ArrayList<>();
+
+        for (String permissao : permissoes) {
+            if (!VerificarPermissao(context, permissao)) {
+                permissoesFaltantes.add(permissao);
+            }
+        }
+
+        return permissoesFaltantes;
+    }
+    public static boolean SolicitarPermissoesFaltantes(Activity activity, String[] permissoes, int requestCode) {
+        List<String> permissoesFaltantes = VerificarPermissoesFaltantes(activity, permissoes);
+
+        if (!permissoesFaltantes.isEmpty()) {
+            ActivityCompat.requestPermissions(activity, permissoesFaltantes.toArray(new String[0]), requestCode);
+            return false; // Permissões ainda não concedidas
+        }
+
+        return true; // Todas as permissões já foram concedidas
+    }
 
 }

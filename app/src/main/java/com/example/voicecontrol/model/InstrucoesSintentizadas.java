@@ -5,7 +5,12 @@ public class InstrucoesSintentizadas {
     private String Atenção [] = {"Tente de novo" + "Tem algo errado"};
     private String Erro[] = {"Erro!"};
     private String Acesso[] = {"Acesso permitido"};
-    private String TelaCadastro[ ] = {"Caro usuario, essa tela é a de cadastro onde podera colocar o nome que deseja ser chamado pelo seu assistente, e tambem podera colocar a foqeu que desej achamar a sua assistente"};
+
+
+    private String TelaCadastro[] = {"Agora, usuário, estamos na parte em que coletaremos suas informações. " +
+            "Logo abaixo existem dois campos de texto, um para o nome de usuário e outro para o nome do assistente. " +
+            "Além disso, há um botão para salvar."};
+
 
     public ArrayList<String> getMensagemList(){
         ArrayList<String> listaCadastro = new ArrayList<>();
@@ -38,5 +43,13 @@ public class InstrucoesSintentizadas {
         return listaAcesso;
 
     }
+    public String[] getTelaCadastro() {
+        ArrayList<String> instrucaoCadastro = new ArrayList<>();
+        for (String mensagem : Acesso){
+            instrucaoCadastro.add(mensagem);
+        }
+        return TelaCadastro;
+    }
+
 
 }

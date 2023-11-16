@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -32,12 +33,10 @@ import java.util.Locale;
 public class ActivityCadastro extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1;
-    private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
-
     private EditText nUsuario;
     private EditText nAssistente;
     private Button entrar;
-    private InstrucoesSintentizadas mensagensSintetizador;
+    private InstrucoesSintentizadas instrucoes;
     private ControleTTS controleTTS;
 
 
@@ -49,9 +48,8 @@ public class ActivityCadastro extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro);
 
         controleTTS = new ControleTTS(this);
-        controleTTS.speak("Bem-vindo caro usuário");
 
-        mensagensSintetizador = new InstrucoesSintentizadas();
+        instrucoes = new InstrucoesSintentizadas();
         nUsuario = findViewById(R.id.nome_usuario);
         nAssistente = findViewById(R.id.nome_assistente);
         entrar = findViewById(R.id.button);
@@ -61,7 +59,8 @@ public class ActivityCadastro extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    iniciarReconhecimentoUsuario();
+                    iniciarReconhecimentoNome();
+                    nUsuario.requestFocus();
 
                 }
                 return false;
@@ -72,7 +71,8 @@ public class ActivityCadastro extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    iniciarReconhecimentoUsuario();
+                    iniciarReconhecimentoAssistente();
+                    nAssistente.requestFocus();
                 }
                 return false;
             }
@@ -83,21 +83,55 @@ public class ActivityCadastro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 criarUsuario();
-                Intent it = new Intent(ActivityCadastro.this, ActivityAlterar.class);
+                SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("user_name", nUsuario.getText().toString());
+                editor.apply();
+
+                Intent it = new Intent(ActivityCadastro.this, MainActivity.class);
                 startActivity(it);
                 finish();
-
 
             }
         });
     }
+    private void criarUsuario() {
+        long id = -1;
+        String nome = nUsuario.getText().toString();
+        String nomeA = nAssistente.getText().toString();
 
+        Cadastro cadastro = new Cadastro(nome, nomeA);
+        ControleCadastro controleCadastro = ControleCadastro.getInstancia(ActivityCadastro.this);
+        if (controleCadastro.cadastrar(cadastro)) {
+            Log.d("Gravacao", "Ok");
+        } else {
+            Log.d("Gravacao", "Sem sucesso");
+        }
+    }
 
-    private void iniciarReconhecimentoUsuario() {
+    private void iniciarReconhecimentoNome() {
 
         Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
+        controleTTS.speak("Fale o seu nome...");
+
+        it.putExtra(RecognizerIntent.EXTRA_PROMPT, "False seu nome...");
+
+        try {
+            startActivityForResult(it, REQUEST_CODE);
+        } catch (Exception e) {
+            Toast.makeText(this, "" + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    private void iniciarReconhecimentoAssistente() {
+
+        Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
+        controleTTS.speak("Fale o nome de sua assistente...");
         it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale seu nome...");
 
         try {
@@ -124,8 +158,7 @@ public class ActivityCadastro extends AppCompatActivity {
                     String tUsuario = nUsuario.getText().toString();
                     controleTTS.speak("Seu nome de Usuario: " + tUsuario + "Certo? ");
                     if (tUsuario.equalsIgnoreCase("Sim")) {
-                        iniciarReconhecimentoUsuario();
-                        nAssistente.requestFocus();
+                        iniciarReconhecimentoNome();
                     }
 
                 } else if (nAssistente.isFocused()) {
@@ -141,23 +174,19 @@ public class ActivityCadastro extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        for (String instrucao : instrucoes.getTelaCadastro()) {
+            controleTTS.speak(instrucao);
+        }
+
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         controleTTS.shutdown();
     }
-    private void criarUsuario() {
-        long id = -1;
-        String nome = nUsuario.getText().toString();
-        String nomeA = nAssistente.getText().toString();
-
-        Cadastro cadastro = new Cadastro(nome, nomeA);
-        ControleCadastro controleCadastro = ControleCadastro.getInstancia(ActivityCadastro.this);
-        if (controleCadastro.cadastrar(cadastro)) {
-            Log.d("Gravacao", "Ok");
-        } else {
-            Log.d("Gravacao", "Sem sucesso");
-            }
-        }
-
-
 }
