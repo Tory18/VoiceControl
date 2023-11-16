@@ -1,4 +1,5 @@
 package com.example.voicecontrol.util;
+
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
@@ -9,16 +10,19 @@ public class ControleTTS implements TextToSpeech.OnInitListener {
     private Context context;
     private TextToSpeech tts;
 
-    private boolean inicializar = true;
-
-    private boolean mensagemFalada = false;
-
     public ControleTTS(Context context) {
         this.context = context;
         tts = new TextToSpeech(context, this);
     }
 
-    public void speak(String message) {
+    private boolean inicializar = false; // Inicializado como falso por padrão
+
+    public ControleTTS(Context context, TextToSpeech.OnInitListener listener) {
+        this.context = context;
+        tts = new TextToSpeech(context, listener);
+    }
+
+    public void speak(String message, int queueFlush, Object o, Object o1) {
         if (tts != null && inicializar && !tts.isSpeaking()) {
             tts.speak(message, TextToSpeech.QUEUE_FLUSH, null, null);
         }
@@ -36,8 +40,10 @@ public class ControleTTS implements TextToSpeech.OnInitListener {
         if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(new Locale("pt", "BR"));
 
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Toast.makeText(context, "Idioma não suportado", Toast.LENGTH_SHORT).show();
+            if (result == TextToSpeech.LANG_MISSING_DATA) {
+                Toast.makeText(context, "Dados de idioma ausentes. Por favor, faça o download.", Toast.LENGTH_LONG).show();
+            } else if (result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(context, "Idioma não suportado. Escolha outro idioma.", Toast.LENGTH_LONG).show();
             } else {
                 inicializar = true;
             }

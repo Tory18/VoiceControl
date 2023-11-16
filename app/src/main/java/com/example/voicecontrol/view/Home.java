@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.CalendarContract;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -75,20 +76,20 @@ public class Home extends AppCompatActivity {
 
             if (nomeApp.equals("telefone")) {
                 intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel: "));
-                controleTTS.speak("Voce esta entrando no aplicativo telefone");
+                controleTTS.speak("Voce esta entrando no aplicativo telefone", TextToSpeech.QUEUE_FLUSH, null, null);
 
             } else if (nomeApp.equals("mapa")) {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=sua_localizacao"));
-                controleTTS.speak("Voce esta entrando no aplicativo mapa");
+                controleTTS.speak("Voce esta entrando no aplicativo mapa", TextToSpeech.QUEUE_FLUSH, null, null);
 
             } else if (nomeApp.equals("email")) {
                 intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("message/rfc822");
-                controleTTS.speak("Voce esta entrando no aplicativo email");
+                controleTTS.speak("Voce esta entrando no aplicativo email", TextToSpeech.QUEUE_FLUSH, null, null);
 
             } else if (nomeApp.equals("agenda")) {
                 intent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
-                controleTTS.speak("Voce esta entrando no aplicativo agenda");
+                controleTTS.speak("Voce esta entrando no aplicativo agenda", TextToSpeech.QUEUE_FLUSH, null, null);
 
             }
 

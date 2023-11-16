@@ -1,18 +1,15 @@
 package com.example.voicecontrol.view;
-import android.Manifest;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -114,7 +111,7 @@ public class ActivityCadastro extends AppCompatActivity {
         Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
-        controleTTS.speak("Fale o seu nome...");
+        controleTTS.speak("Fale o seu nome...", TextToSpeech.QUEUE_FLUSH, null, null);
 
         it.putExtra(RecognizerIntent.EXTRA_PROMPT, "False seu nome...");
 
@@ -131,7 +128,7 @@ public class ActivityCadastro extends AppCompatActivity {
         Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
-        controleTTS.speak("Fale o nome de sua assistente...");
+        controleTTS.speak("Fale o nome de sua assistente...", TextToSpeech.QUEUE_FLUSH, null, null);
         it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale seu nome...");
 
         try {
@@ -156,7 +153,7 @@ public class ActivityCadastro extends AppCompatActivity {
                     nUsuario.setSelection(nUsuario.getText().length());
 
                     String tUsuario = nUsuario.getText().toString();
-                    controleTTS.speak("Seu nome de Usuario: " + tUsuario + "Certo? ");
+                    controleTTS.speak("Seu nome de Usuario: " + tUsuario + "Certo? ", TextToSpeech.QUEUE_FLUSH, null, null);
                     if (tUsuario.equalsIgnoreCase("Sim")) {
                         iniciarReconhecimentoNome();
                     }
@@ -166,7 +163,7 @@ public class ActivityCadastro extends AppCompatActivity {
                     nAssistente.setSelection(nAssistente.getText().length());
 
                     String tAssistente = nAssistente.getText().toString();
-                    controleTTS.speak("Seu nome de Usuario: " + tAssistente + "Certo?");
+                    controleTTS.speak("Seu nome de Usuario: " + tAssistente + "Certo?", TextToSpeech.QUEUE_FLUSH, null, null);
                 }
             }
         }
@@ -176,11 +173,9 @@ public class ActivityCadastro extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         for (String instrucao : instrucoes.getTelaCadastro()) {
-            controleTTS.speak(instrucao);
+            controleTTS.speak(instrucao, TextToSpeech.QUEUE_FLUSH, null, null);
         }
-
     }
 
 
