@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -49,7 +48,7 @@ public class ActivityAlterar extends AppCompatActivity {
         }
 
         //controleTTS = new ControleTTS(this, );
-        controleTTS.speak("Olá caro usuário, nesta tela voce poderá alterar suas informações", TextToSpeech.QUEUE_FLUSH, null, null);
+        controleTTS.speak("Olá caro usuário, nesta tela voce poderá alterar suas informações");
 
         mensagensSintetizador = new InstrucoesSintentizadas();
         altUsuario = findViewById(R.id.nome_usuario);
@@ -97,7 +96,7 @@ public class ActivityAlterar extends AppCompatActivity {
         Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
-        controleTTS.speak("Fale o nome nome da assistente...", TextToSpeech.QUEUE_FLUSH, null, null);
+        controleTTS.speak("Fale o nome nome da assistente...");
         it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale o nome nome da assistente...");
 
         try {
@@ -114,7 +113,7 @@ public class ActivityAlterar extends AppCompatActivity {
         Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
-        controleTTS.speak("Fale o seu novo nome...", TextToSpeech.QUEUE_FLUSH, null, null);
+        controleTTS.speak("Fale o seu novo nome...");
         it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale o seu novo nome...");
 
 
@@ -140,7 +139,7 @@ public class ActivityAlterar extends AppCompatActivity {
                     altUsuario.setSelection(altUsuario.getText().length());
 
                     String tUsuario = altUsuario.getText().toString();
-                    controleTTS.speak("Seu novo nome de Usuario: " + tUsuario + "Certo? ", TextToSpeech.QUEUE_FLUSH, null, null);
+                    controleTTS.speak("Seu novo nome de Usuario: " + tUsuario + "Certo? ");
                     if (tUsuario.equalsIgnoreCase("Sim")) {
                         iniciarReconhecimentoNome();
                         altAssistente.requestFocus();
@@ -151,7 +150,7 @@ public class ActivityAlterar extends AppCompatActivity {
                     altAssistente.setSelection(altAssistente.getText().length());
 
                     String tAssistente = altAssistente.getText().toString();
-                    controleTTS.speak("Seu novo nome de Assistente: " + tAssistente + "Certo?", TextToSpeech.QUEUE_FLUSH, null, null);
+                    controleTTS.speak("Seu novo nome de Assistente: " + tAssistente + "Certo?");
                 }
             }
         }

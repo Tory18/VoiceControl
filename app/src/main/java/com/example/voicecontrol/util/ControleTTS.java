@@ -22,7 +22,7 @@ public class ControleTTS implements TextToSpeech.OnInitListener {
         tts = new TextToSpeech(context, listener);
     }
 
-    public void speak(String message, int queueFlush, Object o, Object o1) {
+    public void speak(String message) {
         if (tts != null && inicializar && !tts.isSpeaking()) {
             tts.speak(message, TextToSpeech.QUEUE_FLUSH, null, null);
         }
