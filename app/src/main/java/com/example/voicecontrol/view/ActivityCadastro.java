@@ -36,8 +36,6 @@ public class ActivityCadastro extends AppCompatActivity {
     private ControleTTS controleTTS;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +47,11 @@ public class ActivityCadastro extends AppCompatActivity {
         nUsuario = findViewById(R.id.nome_usuario);
         nAssistente = findViewById(R.id.nome_assistente);
         entrar = findViewById(R.id.button);
+
+        for (String instruction : instrucoes.getTelaCadastro()) {
+            controleTTS.speak(instruction);
+            Log.w("Cont", "funcionou" +instruction);
+        }
 
         nUsuario.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -75,7 +78,6 @@ public class ActivityCadastro extends AppCompatActivity {
         });
 
         entrar.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 criarUsuario();
@@ -83,6 +85,8 @@ public class ActivityCadastro extends AppCompatActivity {
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("user_name", nUsuario.getText().toString());
                 editor.apply();
+                Log.d("ActivityCadastro", "Nome do usuário salvo: " + nUsuario.getText().toString());
+
 
                 Intent it = new Intent(ActivityCadastro.this, MainActivity.class);
                 startActivity(it);
@@ -140,6 +144,7 @@ public class ActivityCadastro extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
@@ -150,37 +155,39 @@ public class ActivityCadastro extends AppCompatActivity {
                 if (nUsuario.isFocused()) {
                     nUsuario.setText(resultado);
                     nUsuario.setSelection(nUsuario.getText().length());
+                    resposta();
 
                     String tUsuario = nUsuario.getText().toString();
                     controleTTS.speak("Seu nome de Usuario: " + tUsuario + "Certo? ");
-                    if (tUsuario.equalsIgnoreCase("Sim")) {
-                        iniciarReconhecimentoNome();
-                    }
+
 
                 } else if (nAssistente.isFocused()) {
                     nAssistente.setText(resultado);
                     nAssistente.setSelection(nAssistente.getText().length());
-
-                    String tAssistente = nAssistente.getText().toString();
-                    controleTTS.speak("Seu nome de Usuario: " + tAssistente + "Certo?");
+                    resposta();
+                    //String tAssistente = nAssistente.getText().toString();
+                    //controleTTS.speak("Seu nome de assistente: " + tAssistente + "Certo?");
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+    private void resposta(){
+
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        for (String instrucao : instrucoes.getTelaCadastro()) {
-            controleTTS.speak(instrucao);
-        }
+
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        controleTTS.shutdown();
-    }
+        if (controleTTS != null) {
+            controleTTS.shutdown();
+        }    }
 }

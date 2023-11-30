@@ -4,10 +4,6 @@
     <string name="tela_configuracao">Configuracao</string>
     <string name="tela_home">Home</string>
 
-    <string name="saudacao_cadastro">Deseja ir se cadastrar?</string>
-    <string name="pedir_permissoes">Por favor, conceda as permissões necessárias.</string>
-    <string name="bem_vindo">Bem-vindo, %1$s!</string>
-    <string name="saudacao"> Bem-vindo, estimado usuário, ao Voice Control. Solicitamos que você aceite todas as permissões abaixo para desfrutar de uma experiência aprimorada com nosso aplicativo.</string>
 
     <string name="title_activity_alterar">ActivityAlterar</string>
     <string name="title_activity_main">MainActivity</string>

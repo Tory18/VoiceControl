@@ -88,11 +88,13 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="535dp"
-        android:layout_height="374dp"
-        android:layout_marginTop="500dp"
+        android:layout_width="652dp"
+        android:layout_height="341dp"
+        android:layout_marginTop="272dp"
         android:rotation="4"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mar__1__1"
-        tools:layout_editor_absoluteX="-62dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
+        app:srcCompat="@drawable/mar__1__1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

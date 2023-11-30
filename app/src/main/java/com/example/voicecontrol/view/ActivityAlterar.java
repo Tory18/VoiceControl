@@ -47,13 +47,16 @@ public class ActivityAlterar extends AppCompatActivity {
                     PERMISSIONS_REQUEST_RECORD_AUDIO);
         }
 
-        //controleTTS = new ControleTTS(this, );
+        controleTTS = new ControleTTS(this);
         controleTTS.speak("Olá caro usuário, nesta tela voce poderá alterar suas informações");
 
         mensagensSintetizador = new InstrucoesSintentizadas();
         altUsuario = findViewById(R.id.nome_usuario);
         altAssistente = findViewById(R.id.nome_assistente);
         salvar = findViewById(R.id.btnSalvar);
+
+        //String nomeUsuario = getIntent().getStringExtra("USER_NAME");
+        //altUsuario.setText(nomeUsuario);
 
         altUsuario.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -157,11 +160,7 @@ public class ActivityAlterar extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        controleTTS.shutdown();
-    }
+
     private void alterarUsuario() {
         String nome = altUsuario.getText().toString();
         String nomeA = altAssistente.getText().toString();
@@ -174,4 +173,15 @@ public class ActivityAlterar extends AppCompatActivity {
             Toast.makeText(this, "Sem sucesso", Toast.LENGTH_SHORT).show();
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (controleTTS != null) {
+            controleTTS.shutdown();
+        }    }
 }
