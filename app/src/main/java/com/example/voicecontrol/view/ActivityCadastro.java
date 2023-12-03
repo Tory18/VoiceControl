@@ -1,12 +1,15 @@
 package com.example.voicecontrol.view;
+import android.Manifest;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -30,10 +33,11 @@ public class ActivityCadastro extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1;
     private EditText nUsuario;
-    private EditText nAssistente;
     private Button entrar;
     private InstrucoesSintentizadas instrucoes;
     private ControleTTS controleTTS;
+
+
 
 
     @Override
@@ -45,7 +49,6 @@ public class ActivityCadastro extends AppCompatActivity {
 
         instrucoes = new InstrucoesSintentizadas();
         nUsuario = findViewById(R.id.nome_usuario);
-        nAssistente = findViewById(R.id.nome_assistente);
         entrar = findViewById(R.id.button);
 
         for (String instruction : instrucoes.getTelaCadastro()) {
@@ -66,16 +69,6 @@ public class ActivityCadastro extends AppCompatActivity {
             }
         });
 
-        nAssistente.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    iniciarReconhecimentoAssistente();
-                    nAssistente.requestFocus();
-                }
-                return false;
-            }
-        });
 
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +91,7 @@ public class ActivityCadastro extends AppCompatActivity {
     private void criarUsuario() {
         long id = -1;
         String nome = nUsuario.getText().toString();
-        String nomeA = nAssistente.getText().toString();
-
-        Cadastro cadastro = new Cadastro(nome, nomeA);
+        Cadastro cadastro = new Cadastro(nome);
         ControleCadastro controleCadastro = ControleCadastro.getInstancia(ActivityCadastro.this);
         if (controleCadastro.cadastrar(cadastro)) {
             Log.d("Gravacao", "Ok");
@@ -126,23 +117,6 @@ public class ActivityCadastro extends AppCompatActivity {
         }
 
     }
-    private void iniciarReconhecimentoAssistente() {
-
-        Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        it.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getLanguage());
-        controleTTS.speak("Fale o nome de sua assistente...");
-        it.putExtra(RecognizerIntent.EXTRA_PROMPT, "Fale o nome do assistente...");
-
-        try {
-            startActivityForResult(it, REQUEST_CODE);
-        } catch (Exception e) {
-            Toast.makeText(this, "" + e.getMessage(),
-                    Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
 
 
     @Override
@@ -155,16 +129,13 @@ public class ActivityCadastro extends AppCompatActivity {
                 if (nUsuario.isFocused()) {
                     nUsuario.setText(resultado);
                     nUsuario.setSelection(nUsuario.getText().length());
-                    resposta();
+
 
                     String tUsuario = nUsuario.getText().toString();
                     controleTTS.speak("Seu nome de Usuario: " + tUsuario + "Certo? ");
 
+                } else {
 
-                } else if (nAssistente.isFocused()) {
-                    nAssistente.setText(resultado);
-                    nAssistente.setSelection(nAssistente.getText().length());
-                    resposta();
                     //String tAssistente = nAssistente.getText().toString();
                     //controleTTS.speak("Seu nome de assistente: " + tAssistente + "Certo?");
                 }
@@ -172,22 +143,20 @@ public class ActivityCadastro extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    private void resposta(){
-
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (controleTTS != null) {
-            controleTTS.shutdown();
-        }    }
+        controleTTS.shutdown();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for (String instruction : instrucoes.getTelaCadastro()) {
+            controleTTS.speak(instruction);
+            Log.w("Cont", "funcionou" + instruction);
+        }
+    }
+
+
 }

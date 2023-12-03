@@ -43,8 +43,8 @@
 
     <EditText
         android:id="@+id/nome_usuario"
-        android:layout_width="279dp"
-        android:layout_height="53dp"
+        android:layout_width="315dp"
+        android:layout_height="96dp"
         android:layout_marginTop="36dp"
         android:background="@drawable/borda_arredondada"
         android:ems="10"
@@ -53,30 +53,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView16" />
 
-    <EditText
-        android:id="@+id/nome_assistente"
-        android:layout_width="275dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/borda_arredondada"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nome_usuario" />
-
     <Button
         android:id="@+id/btnSalvar"
-        android:layout_width="183dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="96dp"
+        android:layout_width="256dp"
+        android:layout_height="90dp"
         android:background="@drawable/btn_arredondada"
         android:text="SALVAR"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nome_assistente" />
+        app:layout_constraintTop_toBottomOf="@+id/nome_usuario" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

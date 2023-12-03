@@ -1,17 +1,19 @@
 package com.example.voicecontrol.view;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.voicecontrol.R;
 import com.example.voicecontrol.model.InstrucoesSintentizadas;
@@ -28,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "user_prefs";
     private static final String USER_NAME_KEY = "user_name";
 
-
     private static final int REQUEST_CODE = 5;
     private static final int PERMISSION_REQUEST_CODE = 3;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
         btnCadastro = findViewById(R.id.bnt_cadastro);
         controleTTS = new ControleTTS(this);
 
-        for (String instruction : intrucoes.getMain()) {
+        for (String instruction : intrucoes.getTelaMain()) {
             controleTTS.speak(instruction);
-            Log.w("Cont", "funcionou" + instruction);
+            Log.w("Cont", "funcionou" +instruction);
         }
+
         btnCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,18 +64,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     private void solicitarPermissao() {
-        String[] permissionsUsurious = PermissoesUsuario.Lista_de_Permissoes;
-        if (PermissoesUsuario.TodasPermissoesConcedidas(this, permissionsUsurious)) {
+        String[] permissoesUsuario = PermissoesUsuario.Lista_de_Permissoes;
+        if (controleTTS != null && PermissoesUsuario.TodasPermissoesConcedidas(this, permissoesUsuario)) {
+
         } else {
-            PermissoesUsuario.SolicitarPermissoesFaltantes(this, permissionsUsurious, PERMISSION_REQUEST_CODE);
+            PermissoesUsuario.SolicitarPermissoesFaltantes(this, permissoesUsuario, PERMISSION_REQUEST_CODE);
+
         }
     }
-
-
-
-
     private void recVoz() {
         Intent it = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         it.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -109,12 +110,11 @@ public class MainActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-
         recVoz();
+
         if (controleTTS == null) {
             controleTTS = new ControleTTS(this, status -> {
                 if (status == TextToSpeech.SUCCESS) {
@@ -126,10 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
-
-
     private void confirmacao() {
         if (controleTTS != null) {
             SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -156,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy(){
         super.onDestroy();
         if (controleTTS != null) {
             controleTTS.shutdown();

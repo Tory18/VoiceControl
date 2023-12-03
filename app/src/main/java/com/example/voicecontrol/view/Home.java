@@ -15,7 +15,9 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.voicecontrol.R;
+import com.example.voicecontrol.model.App;
 import com.example.voicecontrol.util.ControleTTS;
+import com.example.voicecontrol.viewmodel.AdapterApps;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -38,28 +40,30 @@ public class Home extends AppCompatActivity {
         view = findViewById(R.id._dynamic);
         btn = findViewById(R.id.btnFalar);
 
-
-
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
                 if (preferences.contains(USER_NAME_KEY)) {
                     String nome = preferences.getString(USER_NAME_KEY, "");
-
-                    String chamar = "Ola" + nome + "!";
+                    String chamar = "Olá " + nome + "!";
                     controleTTS.speak(chamar);
                     iniciarReconhecimento();
                 }
             }
         }, 100);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarReconhecimento();
-            }
-        });
+        btn.setOnClickListener(v -> iniciarReconhecimento());
+
+        ArrayList<App> arrayList = new ArrayList<>();
+        arrayList.add(new App(R.drawable.telefone, "telefone"));
+        arrayList.add(new App(R.drawable.mapa, "mapa"));
+        arrayList.add(new App(R.drawable.email, "e-mail"));
+        arrayList.add(new App(R.drawable.agenda, "agenda"));
+        arrayList.add(new App(R.drawable.youtube, "youtube"));
+
+        AdapterApps apps = new AdapterApps(this, R.layout.item_lista_apps, arrayList);
+        view.setAdapter(apps);
     }
 
     private void iniciarReconhecimento() {
@@ -86,7 +90,7 @@ public class Home extends AppCompatActivity {
                 Intent it;
                 it = new Intent(Home.this, ActivityAlterar.class);
                 startActivity(it);
-                controleTTS.speak("Você está sendo redirecionado para tela de alterar seu nome e o nome de seu usuario");
+                controleTTS.speak("Você está sendo redirecionado para tela de alteração para alterar seu nome");
             }
         }
     }
@@ -104,7 +108,7 @@ public class Home extends AppCompatActivity {
                 break;
 
             case "e-mail":
-                intent = new Intent(Intent.ACTION_SEND);
+                intent = new Intent(Intent.ACTION_VIEW);
                 intent.setType("message/rfc822");
                 controleTTS.speak("Você está entrando no aplicativo email");
                 break;
@@ -130,15 +134,18 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        controleTTS.speak("Deseja ir a alguma coisa?");
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                iniciarReconhecimento();
+                SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                if (preferences.contains(USER_NAME_KEY)) {
+                    String nome = preferences.getString(USER_NAME_KEY, "");
+                    controleTTS.speak("Você é o " + nome);
+                }
             }
-        }, 5000);
+        }, 100);
     }
 
     @Override

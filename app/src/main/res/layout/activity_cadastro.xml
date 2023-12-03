@@ -27,43 +27,29 @@
 
     <EditText
         android:id="@+id/nome_usuario"
-        android:layout_width="262dp"
-        android:layout_height="51dp"
+        android:layout_width="278dp"
+        android:layout_height="73dp"
         android:layout_marginTop="56dp"
+        android:background="@drawable/borda_arredondada"
         android:ems="10"
         android:hint="Insira seu nome"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7"
-        android:background="@drawable/borda_arredondada"/>
-
-    <EditText
-        android:id="@+id/nome_assistente"
-        android:layout_width="266dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="80dp"
-        android:ems="10"
-        android:hint="Insira o nome do seu Assistente"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
-        android:background="@drawable/borda_arredondada"/>
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="183dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="96dp"
+        android:layout_width="254dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="92dp"
         android:background="@drawable/btn_arredondada"
         android:text="Entrar"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nome_assistente" />
+        app:layout_constraintTop_toBottomOf="@+id/nome_usuario" />
 
     <ImageView
         android:id="@+id/imageView9"
@@ -88,13 +74,12 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="652dp"
-        android:layout_height="341dp"
-        android:layout_marginTop="272dp"
+        android:layout_width="728dp"
+        android:layout_height="385dp"
+        android:layout_marginTop="28dp"
         android:rotation="4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
+        app:layout_constraintTop_toBottomOf="@+id/button"
         app:srcCompat="@drawable/mar__1__1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,6 @@ public class CadastroRepositorio {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put(DBHelper.COLUNA_NOME_USUARIO, cadastro.getNome());
-        valores.put(DBHelper.COLUNA_NOMEASSISTENTE_USUARIO, cadastro.getNomeAssistente());
         long id = db.insert(DBHelper.TABELA_USUARIO, null, valores);
         db.close();
         return id;
@@ -30,7 +29,6 @@ public class CadastroRepositorio {
         SQLiteDatabase db = helper.getReadableDatabase();
         ContentValues valores = new ContentValues();
         valores.put(DBHelper.COLUNA_NOME_USUARIO, cadastro.getNome());
-        valores.put(DBHelper.COLUNA_NOMEASSISTENTE_USUARIO, cadastro.getNomeAssistente());
 
         int linhas = db.update(DBHelper.TABELA_USUARIO, valores, DBHelper.COLUNA_NOME_USUARIO,
                 new String[] {String.valueOf(cadastro.getNome())});
@@ -46,8 +44,7 @@ public class CadastroRepositorio {
 
         while(cursor.moveToNext()){
             String nome = cursor.getString(0);
-            String nomeAssistente = cursor.getString(1);
-            Cadastro cadastro = new Cadastro(nome, nomeAssistente);
+            Cadastro cadastro = new Cadastro(nome);
             cadastros.add(cadastro);
         }
         cursor.close();

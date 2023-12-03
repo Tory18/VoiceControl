@@ -37,9 +37,13 @@ public class ControleCadastro {
     public Cadastro buscarPorPosicao(int posicao){
         return cadastros.get(posicao);
     }
-    public boolean atualizarLista(){
+    public boolean atualizarLista() {
         CadastroRepositorio cadastroRepositorio = new CadastroRepositorio(context);
-        return cadastroRepositorio.alterar((Cadastro) cadastros);
+        for (Cadastro cadastro : cadastros) {
+            cadastroRepositorio.alterar(cadastro);
+        }
+        return true;
     }
+
 
 }

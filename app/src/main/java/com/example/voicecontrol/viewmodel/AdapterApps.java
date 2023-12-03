@@ -4,48 +4,52 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.example.voicecontrol.R;
 import com.example.voicecontrol.model.App;
 import com.example.voicecontrol.model.Cadastro;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterApps extends BaseAdapter {
-    Context context;
+public class AdapterApps extends ArrayAdapter<App> {
+    private Context context;
+    private  int resource;
 
-    public List<App> listApps;
-
-    @Override
-    public int getCount() {
-        return listApps.size();
+    static class ViewHolder{
+        ImageView imageView;
+        TextView textView;
     }
-
-    @Override
-    public Object getItem(int position) {
-        return listApps.get(position);
-
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
+    public AdapterApps(Context context, int resource, ArrayList<App> objects) {
+        super(context, resource, objects);
+        this.context = context;
+        this.resource = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = LayoutInflater.from(context).inflate(
-                R.layout.item_lista_apps, parent, false
-        );
-        TextView NomeApp = v.findViewById(R.id.nome_app);
-        ImageView imgApp = v.findViewById(R.id.img_app);
+        ViewHolder viewHolder;
+        if (convertView == null){
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
+            convertView = layoutInflater.inflate(resource, parent, false);
 
-        App apps = listApps.get(position);
+            viewHolder = new ViewHolder();
+            viewHolder.imageView = convertView.findViewById(R.id.img_app);
+            viewHolder.textView = convertView.findViewById(R.id.nome_app);
 
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
-        return null;
+        viewHolder.imageView.setImageResource(getItem(position).getId());
+        viewHolder.textView.setText(getItem(position).getNome());
+        return convertView;
     }
 }
